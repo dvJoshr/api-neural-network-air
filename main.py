@@ -1,14 +1,18 @@
+
+import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-#Base model
+import model.calidad_del_aire as cal
 
+
+#Base model
 class Enviroment(BaseModel):
-    CO: str
-    NO2: str
-    PM_2: str
-    PM10: str
-    OZONE: str
+    AM: float
+    BM: float
+    CM: float
+    DM: float
+    EM: float
 
 app = FastAPI()
 
@@ -26,6 +30,6 @@ def get_posts():
 
 @app.post('/post')
 def save_enviroments(enviroment: Enviroment):
-        enviroments.append(enviroment.dict())
+        data_predic = pd.DataFrame({'A': [enviroment.AM], 'B': [enviroment.BM], 'C': [enviroment.CM], 'D': [enviroment.DM], 'E': [enviroment.EM]})
+        cal.prediction_asd(data_predic)
         return 'recived'
-
